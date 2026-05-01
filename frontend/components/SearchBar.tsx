@@ -2,14 +2,16 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import DOMPurify from "dompurify";
 
 export default function SearchBar({ initialQuery = "" }) {
   const [query, setQuery] = useState(initialQuery);
   const router = useRouter();
 
-  const handleSearch = () => {
-    router.push(`/countries?page=1&search=${query}`);
-  };
+ const handleSearch = () => {
+  const clean = DOMPurify.sanitize(query); 
+  router.push(`/countries?page=1&search=${clean}`);
+};
 
   return (
     <div className="mb-4">
