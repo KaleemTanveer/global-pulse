@@ -36,20 +36,16 @@ export default async function CountriesPage({ searchParams }: Props) {
       <Link key={c.code} href={`/countries/${c.code}`}>
        <div className="border p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer bg-white">
   
-  {/* Flag */}
  
 
-  {/* Name */}
   <h2 className="font-semibold text-lg text-gray-800">
     {c.name}
   </h2>
 
-  {/* Capital */}
   <p className="text-sm text-gray-600 mt-1">
     <span className="font-medium">Capital:</span> {c.capital || "N/A"}
   </p>
 
-  {/* Region */}
   <p className="text-sm text-gray-600">
     <span className="font-medium">Region:</span> {c.region}
   </p>
@@ -64,7 +60,6 @@ export default async function CountriesPage({ searchParams }: Props) {
   )}
 </div>
 
-      {/* Pagination */}
       <div className="mt-6 flex gap-4">
         {currentPage > 1 && (
           <Link href={`/countries?page=${currentPage - 1}&search=${search}`}>
