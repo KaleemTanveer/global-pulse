@@ -1,4 +1,5 @@
 import Card from "@/components/Card";
+import RefreshButton from "@/components/RefreshButton";
 
 async function getData() {
   try {
@@ -26,45 +27,43 @@ export default async function Dashboard() {
   return (
    <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
 
-  {/* Weather */}
   <Card title="🌦 Weather">
-    {weather ? (
-     <p className="text-gray-700">
-  Temperature: {weather.temperature}°C
-</p>
-    ) : (
-      <p>Loading...</p>
-    )}
-  </Card>
+  {weather ? (
+    <>
+      <p className="text-gray-700">
+        <span className="font-semibold">Temperature:</span> {weather.temperature}°C
+      </p>
+      <RefreshButton />
+    </>
+  ) : (
+    <p>Loading...</p>
+  )}
+</Card>
 
-  {/* ISS */}
   <Card title="🛰 ISS">
-    {iss ? (
-         <div className="text-gray-700">
-      <p>Latitude: {Number(iss.iss_position?.latitude).toFixed(2)}</p>
-      <p>Longitude: {Number(iss.iss_position?.longitude).toFixed(2)}</p>
-    </div>
-    ) : (
-      <p>Loading...</p>
-    )}
-  </Card>
+  {iss ? (
+    <>
+      <p>Lat: {iss.iss_position?.latitude}</p>
+      <p>Lng: {iss.iss_position?.longitude}</p>
+      <RefreshButton />
+    </>
+  ) : (
+    <p>Loading...</p>
+  )}
+</Card>
 
-  {/* Country */}
-   <Card title="🌍 Country">
-    {country?.data?.[0] ? (
-      <>
-      <p className="mt-2 font-medium text-lg">
-  {country.data[0].name}
-</p>
-
-<p className="text-sm text-gray-500">
-  Capital: {country.data[0].capital}
-</p>
-      </>
-    ) : (
-      <p>Loading...</p>
-    )}
-  </Card>
+<Card title="🌍 Country">
+  {country?.data?.[0] ? (
+    <>
+      <img src={country.data[0].flag} width="80" />
+      <p>{country.data[0].name}</p>
+      <p>Capital: {country.data[0].capital}</p>
+      <RefreshButton />
+    </>
+  ) : (
+    <p>Loading...</p>
+  )}
+</Card>
 
 </div>
   );

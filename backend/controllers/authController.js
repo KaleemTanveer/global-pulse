@@ -4,9 +4,6 @@ const User = require("../models/User");
 const { validationResult } = require("express-validator");
 
 
-
-
-
 // REGISTER
 exports.register = async (req, res) => {
   try {
@@ -60,7 +57,6 @@ exports.login = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    // ✅ Store in cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,

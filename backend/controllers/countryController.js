@@ -48,6 +48,26 @@ exports.getCountryByCode = (req, res) => {
       return res.status(404).json({ error: "Country not found" });
     }
 
+    const currencies = country.currencies
+      ? Object.values(country.currencies).map((c) => ({
+          name: c.name,
+          symbol: c.symbol,
+        }))
+      : [];
+
+    const languages = country.languages
+      ? Object.values(country.languages)
+      : [];
+
+    const borders = country.borders
+      ? country.borders.map((borderCode) => {
+          const borderCountry = rawCountries.find(
+            (c) => c.cca3 === borderCode
+          );
+          return borderCountry ? borderCountry.name.common : borderCode;
+        })
+      : [];
+
     const result = {
       name: country.name.common,
       capital: country.capital ? country.capital[0] : "N/A",
@@ -55,6 +75,9 @@ exports.getCountryByCode = (req, res) => {
       region: country.region,
       flag: country.flags?.png,
       code: country.cca3,
+      currencies,
+      languages,
+      borders,
     };
 
     res.json(result);

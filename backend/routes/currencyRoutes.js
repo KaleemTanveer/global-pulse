@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { getRates } = require("../controllers/currencyController");
+const { convertCurrency } = require("../controllers/currencyController");
 
-router.get("/rates", getRates);
+router.get("/convert", convertCurrency);
 
 module.exports = router;
