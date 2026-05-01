@@ -2,7 +2,6 @@ const request = require("supertest");
 const app = require("../server");
 const sequelize = require("../config/db");
 
-// ✅ Reset DB before all tests
 beforeAll(async () => {
   await sequelize.sync({ force: true });
 });
@@ -11,7 +10,7 @@ describe("Auth API", () => {
 
   test("register success", async () => {
     const res = await request(app).post("/api/auth/register").send({
-      email: "test1@test.com",   // ✅ unique email
+      email: "test1@test.com",  
       password: "123456",
     });
 
@@ -46,7 +45,7 @@ describe("Auth API", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("message");
-    expect(res.body).toHaveProperty("token"); // ✅ better check
+    expect(res.body).toHaveProperty("token"); 
   });
 
   test("wrong password", async () => {

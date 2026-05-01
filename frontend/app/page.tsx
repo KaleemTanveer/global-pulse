@@ -1,5 +1,6 @@
-import Card from "@/components/Card";
-import RefreshButton from "@/components/RefreshButton";
+import React from "react";
+import Card from "../components/Card";
+import RefreshButton from "../components/RefreshButton";
 
 async function getData() {
   try {

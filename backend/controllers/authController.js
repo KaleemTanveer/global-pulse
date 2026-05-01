@@ -10,25 +10,31 @@ exports.register = async (req, res) => {
     const { name, email, password } = req.body;
 
     const errors = validationResult(req);
-if (!errors.isEmpty()) {
-  return res.status(400).json({ errors: errors.array() });
-}
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-const existingUser = await User.findOne({
-  where: { email },
-});    if (existingUser) {
+    const existingUser = await User.findOne({
+      where: { email },
+    });
+
+    if (existingUser) {
       return res.status(409).json({ error: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const user = await User.create({
       name,
       email,
       passwordHash: hashedPassword,
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      message: "User registered successfully",
+      userId: user.id,
+    });
+
   } catch (error) {
     res.status(500).json({ error: "Register failed" });
   }
@@ -63,9 +69,13 @@ exports.login = async (req, res) => {
       sameSite: "strict",
     });
 
-    res.json({ message: "Login successful" });
+    res.status(200).json({
+      message: "Login successful",
+      token,
+    });
 
   } catch (error) {
+    console.error("LOGIN ERROR:", error); // debug
     res.status(500).json({ error: "Server error" });
   }
 };

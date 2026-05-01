@@ -1,3 +1,5 @@
+import React from "react";
+
 async function getCountry(code: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/countries/${code}`,

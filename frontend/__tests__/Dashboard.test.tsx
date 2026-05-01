@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import Dashboard from "../app/page";
 
-// ✅ MOCK router
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: jest.fn(),
@@ -10,7 +9,6 @@ jest.mock("next/navigation", () => ({
   }),
 }));
 
-// ✅ MOCK fetch
 global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () =>

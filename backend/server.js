@@ -16,8 +16,6 @@ const rateLimit = require("express-rate-limit");
 axios.defaults.httpAgent = new http.Agent({ family: 4 });
 axios.defaults.httpsAgent = new https.Agent({ family: 4 });
 
-
-
 const authRoutes = require("./routes/authRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const weatherRoutes = require("./routes/weatherRoutes");
@@ -36,10 +34,12 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true, 
-}));
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -51,6 +51,7 @@ app.use("/api/countries", countryRoutes);
 app.use("/api/iss", issRoutes);
 app.use("/api/currency", currencyRoutes);
 app.use("/api/soap", soapRoutes);
+
 app.get("/", (req, res) => {
   res.send("API Running...");
 });
@@ -59,10 +60,13 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong" });
 });
+module.exports = app;
 
-sequelize.sync().then(() => {
-  console.log("Database synced");
-  app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+if (process.env.NODE_ENV !== "test") {
+  sequelize.sync().then(() => {
+    console.log("Database synced");
+    app.listen(process.env.PORT, () => {
+      console.log(`Server running on port ${process.env.PORT}`);
+    });
   });
-});
+}

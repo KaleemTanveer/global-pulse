@@ -1,5 +1,6 @@
+import React from "react";
+import SearchBar from "../../components/SearchBar";
 import Link from "next/link";
-import SearchBar from "@/components/SearchBar";
 
 async function getCountries(page = 1, search = "") {
   const res = await fetch(

@@ -4,7 +4,7 @@ import CountryDetail from "../app/countries/[code]/page";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
-    ok: true, // ✅ VERY IMPORTANT
+    ok: true, 
     json: () =>
       Promise.resolve({
         name: "Pakistan",
