@@ -52,10 +52,10 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+  { id: user.id },
+  process.env.JWT_SECRET || "testsecret",
+  { expiresIn: "1d" }
+);
 
     res.cookie("token", token, {
       httpOnly: true,
