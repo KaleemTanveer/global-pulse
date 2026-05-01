@@ -15,12 +15,10 @@ exports.getCountries = (req, res) => {
       code: c.cca3,
     }));
 
-    // 🔍 SEARCH FILTER
     const filtered = simplified.filter((c) =>
       c.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    // 📄 PAGINATION
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 

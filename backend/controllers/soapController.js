@@ -21,7 +21,7 @@ exports.convertNumber = async (req, res) => {
       }
     );
 
-    console.log(response.data); // REQUIRED
+    console.log(response.data); 
 
     res.json({ received: true });
   } catch (error) {

@@ -8,7 +8,6 @@ exports.getWeather = async (req, res) => {
       return res.status(400).json({ error: "City is required" });
     }
 
-    // Step 1: Get lat/lng from city (use free geocoding)
     const geoRes = await axios.get(
       `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
     );
@@ -21,7 +20,6 @@ exports.getWeather = async (req, res) => {
 
     const { latitude, longitude } = location;
 
-    // Step 2: Get weather
     const weatherRes = await axios.get(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
     );

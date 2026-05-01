@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+require("./models/User");
+require("./models/Favorite");
 
 const sequelize = require("./config/db");
 const axios = require("axios");
@@ -11,15 +13,11 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-// Force IPv4 for axios (good 👍)
 axios.defaults.httpAgent = new http.Agent({ family: 4 });
 axios.defaults.httpsAgent = new https.Agent({ family: 4 });
 
-// Models
-require("./models/User");
-require("./models/Favorite");
 
-// Routes
+
 const authRoutes = require("./routes/authRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const weatherRoutes = require("./routes/weatherRoutes");
@@ -30,27 +28,22 @@ const soapRoutes = require("./routes/soapRoutes");
 
 const app = express();
 
-// ✅ Security Middleware
 app.use(helmet());
 
-// ✅ Rate Limiting (100 requests / 15 min)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
 });
 app.use(limiter);
 
-// ✅ CORS (only frontend allowed)
 app.use(cors({
   origin: process.env.CLIENT_URL,
-  credentials: true, // IMPORTANT for cookies
+  credentials: true, 
 }));
 
-// ✅ Body + Cookies
 app.use(express.json());
 app.use(cookieParser());
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/weather", weatherRoutes);
@@ -58,18 +51,15 @@ app.use("/api/countries", countryRoutes);
 app.use("/api/iss", issRoutes);
 app.use("/api/currency", currencyRoutes);
 app.use("/api/soap", soapRoutes);
-// Health route
 app.get("/", (req, res) => {
   res.send("API Running...");
 });
 
-// ❗ Global Error Handler (REQUIRED)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong" });
 });
 
-// DB + Server start
 sequelize.sync().then(() => {
   console.log("Database synced");
   app.listen(process.env.PORT, () => {

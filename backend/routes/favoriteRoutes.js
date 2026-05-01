@@ -7,7 +7,6 @@ const {
   addFavorite,
 } = require("../controllers/favoriteController");
 
-// protected routes
 router.get("/", authMiddleware, getFavorites);
 router.post("/", authMiddleware, addFavorite);
 
