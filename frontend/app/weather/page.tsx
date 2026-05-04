@@ -1,23 +1,25 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import SearchBar from "../../components/SearchBar";
 
 export default function WeatherPage() {
-  const [city, setCity] = useState("");
+  const [currentCity, setCurrentCity] = useState("");
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchWeather = async () => {
-    if (!city) return;
+  const fetchWeather = async (cityToSearch: string) => {
+    if (!cityToSearch) return;
 
+    setCurrentCity(cityToSearch);
     setLoading(true);
     setError("");
     setData(null);
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/weather?city=${city}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/weather?city=${cityToSearch}`
       );
 
       if (!res.ok) {
@@ -37,20 +39,10 @@ export default function WeatherPage() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Weather</h1>
 
-      <div className="mb-4">
-        <input
-          className="border p-2"
-          placeholder="Enter city..."
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <button
-          onClick={fetchWeather}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white"
-        >
-          Search
-        </button>
-      </div>
+      <SearchBar 
+        placeholder="Enter city..." 
+        onSearch={fetchWeather} 
+      />
 
       {loading && <p>Loading...</p>}
 
@@ -58,8 +50,8 @@ export default function WeatherPage() {
         <div>
           <p className="text-red-500">{error}</p>
           <button
-            onClick={fetchWeather}
-            className="ml-2 px-4 py-2 bg-blue-500 text-white"
+            onClick={() => fetchWeather(currentCity)}
+            className="mt-2 px-4 py-2 bg-blue-500 text-white"
           >
             Retry
           </button>
@@ -67,7 +59,7 @@ export default function WeatherPage() {
       )}
 
       {data && (
-        <div className="border p-4 rounded shadow">
+        <div className="border p-4 rounded shadow mt-4">
           <p>Temperature: {data.temperature}°C</p>
           <p>Wind Speed: {data.windspeed}</p>
         </div>
