@@ -25,7 +25,6 @@ export default function SearchBar({
   const lastSearch = useSelector((state: RootState) => 
     category === "country" ? state.search.lastCountrySearch : state.search.lastWeatherSearch
   );
-  console.log("🚀 ~ SearchBar ~ lastSearch:", lastSearch)
 
   const [query, setQuery] = useState(lastSearch || initialQuery);
 
