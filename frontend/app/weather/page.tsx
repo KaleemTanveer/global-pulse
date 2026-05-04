@@ -42,6 +42,7 @@ export default function WeatherPage() {
       <SearchBar 
         placeholder="Enter city..." 
         onSearch={fetchWeather} 
+        category="weather"
       />
 
       {loading && <p>Loading...</p>}

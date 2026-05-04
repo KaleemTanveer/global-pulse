@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import StoreProvider from "../components/StoreProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="bg-gradient-to-br from-gray-100 to-gray-200">{children}</body>
+      <body className="bg-gradient-to-br from-gray-100 to-gray-200">
+        <StoreProvider>{children}</StoreProvider>
+      </body>
     </html>
   );
 }
